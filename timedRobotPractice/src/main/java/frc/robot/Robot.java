@@ -4,9 +4,14 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode; 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -19,6 +24,13 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private Joystick driverJoystick;
+  private TalonSRX rightFront;
+  private TalonSRX rightRear;
+  private TalonSRX leftFront;
+  private TalonSRX leftRear;
+
+
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -29,6 +41,19 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    driverJoystick = new Joystick(0);
+    rightFront = new TalonSRX(4);
+    rightRear = new TalonSRX(3);
+    leftFront = new TalonSRX(2);
+    leftRear = new TalonSRX(1);
+
+    rightRear.follow(rightFront);
+    leftRear.follow(leftFront);
+
+    rightRear.setInverted(true);
+    rightFront.setInverted(true);
+
   }
 
   /**
@@ -39,7 +64,9 @@ public class Robot extends TimedRobot {
    * SmartDashboard integrated updating.
    */
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+    System.out.println("Meow");
+  }
 
   /**
    * This autonomous (along with the chooser code above) shows how to select between different
@@ -78,7 +105,29 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+  rightFront.set(ControlMode.PercentOutput, driverJoystick.getRawAxis(3));
+
+  leftFront.set(ControlMode.PercentOutput, driverJoystick.getRawAxis(1));
+
+  //   if(driverJoystick.getRawButton(1)) {
+  //     motor.set(ControlMode.PercentOutput, 0.3);
+  //   }
+  //   else if(driverJoystick.getRawButton(2)) {
+  //     motor.set(ControlMode.PercentOutput, -0.3);
+
+  //   } else {
+  //     motor.set(ControlMode.PercentOutput, 0);
+  //   }
+
+      
+  ///rightFront.set(ControlMode.PercentOutput, driverJoystick.getRawAxis(3));
+  
+    
+  
+
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
