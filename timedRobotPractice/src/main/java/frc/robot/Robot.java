@@ -25,8 +25,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
  */
 public class Robot extends TimedRobot {
 
-  private DigitalOutput beamOut;
   private DigitalInput beamIn;
+  private DigitalInput beamIn1;
   private TalonSRX leftFront;
   private TalonSRX leftBack;
   private TalonSRX rightFront;
@@ -42,7 +42,9 @@ public class Robot extends TimedRobot {
   public void robotInit() {
 
     beamIn = new DigitalInput(1);
+    beamIn1 = new DigitalInput(2);
     SmartDashboard.putBoolean("Beam Breaker", beamIn.get());
+    SmartDashboard.putBoolean("Beam Breaker 2", beamIn1.get());
     leftFront = new TalonSRX(2);
     leftBack = new TalonSRX(1);
     rightFront = new TalonSRX(4);
@@ -71,6 +73,7 @@ public class Robot extends TimedRobot {
 
     if(beamIn.get() == false) {
       rightFront.set(ControlMode.PercentOutput, 0.3);
+    } else if(beamIn1.get() == false) {
       leftFront.set(ControlMode.PercentOutput, 0.3);
     } else {
       rightFront.set(ControlMode.PercentOutput, 0);
