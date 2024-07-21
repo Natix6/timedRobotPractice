@@ -6,15 +6,10 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalOutput;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.networktables.NetworkTableInstance;
 
 
 /**
@@ -26,7 +21,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 public class Robot extends TimedRobot {
 
   private DigitalInput beamIn;
-  private DigitalInput beamIn1;
   private TalonSRX leftFront;
   private TalonSRX leftBack;
   private TalonSRX rightFront;
@@ -42,9 +36,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
 
     beamIn = new DigitalInput(1);
-    beamIn1 = new DigitalInput(2);
     SmartDashboard.putBoolean("Beam Breaker", beamIn.get());
-    SmartDashboard.putBoolean("Beam Breaker 2", beamIn1.get());
     leftFront = new TalonSRX(2);
     leftBack = new TalonSRX(1);
     rightFront = new TalonSRX(4);
@@ -71,9 +63,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() { 
 
-    if(beamIn.get() == false) {
+    if(!beamIn.get()) {
       rightFront.set(ControlMode.PercentOutput, 0.3);
-    } else if(beamIn1.get() == false) {
       leftFront.set(ControlMode.PercentOutput, 0.3);
     } else {
       rightFront.set(ControlMode.PercentOutput, 0);
