@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
 
     beamIn = new DigitalInput(1);
     SmartDashboard.putBoolean("Beam Breaker", beamIn.get());
+    SmartDashboard.putBoolean("Beam Breaker 2", beamIn2.get());
     leftFront = new TalonSRX(2);
     leftBack = new TalonSRX(1);
     rightFront = new TalonSRX(4);
