@@ -2,12 +2,10 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
   
@@ -46,11 +44,11 @@ public class Robot extends TimedRobot {
       motor.set(ControlMode.PercentOutput, 0);
     }
 
+    motor.set(ControlMode.PercentOutput, driverJoystick.getRawAxis(3));
+
 
   }
-  public void teleopPeriodic() {}
 
-  /** This function is called once when the robot is disabled. */
   @Override
   public void disabledInit() {}
   /** This function is called periodically when disabled. */
@@ -66,4 +64,4 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationInit() {}
   /** This function is called periodically whilst in simulation. */
-  @Override
+
