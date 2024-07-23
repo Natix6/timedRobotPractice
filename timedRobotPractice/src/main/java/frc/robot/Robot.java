@@ -5,9 +5,15 @@
 package frc.robot;
 
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+
 
 
 /**
@@ -21,7 +27,12 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-
+  private TalonSRX motor;
+  private double kP = 0;
+  private double kD = 0;
+  private double kI = 0;
+  private double setPoint;
+  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -31,7 +42,15 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+
+    motor = new TalonSRX(2);
+    motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+    motor.setSensorPhase(true);
+    SmartDashboard.putNumber("Kp", kP);
+    SmartDashboard.putNumber("Kd", kD);
+    SmartDashboard.putNumber("Ki", kI);
+    SmartDashboard.putNumber("Set point", setPoint);
+
   }
 
   /**
@@ -81,7 +100,20 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+    kP = SmartDashboard.getNumber("P", kP);
+    kI = SmartDashboard.getNumber("I", kI);
+    kD = SmartDashboard.getNumber("D", kD);
+    setPoint = SmartDashboard.getNumber("Set Point", setPoint);
+
+    motor.config_kD(0, kD);
+    motor.config_kI(0, kI);
+    motor.config_kP(0, kP);
+    motor.set(ControlMode.Position, setPoint);
+
+    SmartDashboard.putNumber("Position", motor.getSelectedSensorPosition());
+  }
 
   /** This function is called once when the robot is disabled. */
   @Override
