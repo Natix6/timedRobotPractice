@@ -102,10 +102,12 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    kP = SmartDashboard.getNumber("P", kP);
-    kI = SmartDashboard.getNumber("I", kI);
-    kD = SmartDashboard.getNumber("D", kD);
-    setPoint = SmartDashboard.getNumber("Set Point", setPoint);
+    kP = SmartDashboard.getNumber("Kp", kP);
+    kI = SmartDashboard.getNumber("Ki", kI);
+    kD = SmartDashboard.getNumber("Kd", kD);
+    System.out.println(kP);
+    setPoint = SmartDashboard.getNumber("Set point", setPoint);
+
 
     motor.config_kD(0, kD);
     motor.config_kI(0, kI);
